@@ -1,32 +1,39 @@
 <script setup>
-</script>
 
+</script>
+<script>
+  import axios from 'axios'
+
+  export default {
+    data() {
+      return {
+        data: []
+      }
+    },
+    mounted() {
+      axios.get('https://dummyjson.com/products?limit=3')
+      .then((response) => {
+        console.log(response.data.products)
+        this.data = response.data.products
+      })
+    }
+   }
+</script>
 <template>
   <section>
     <div class="container-fluid bg-D9EF0C h-25 text-center content">
       <h1 class="text-h">LOREM IPSUM</h1>
       <div class="text-start justify-content-center d-flex mt-5 gap-3 ">
-          <div class="card" style="width: 19rem; " >
-            <img src="../assets/card.jpg" class="card-img-top" alt="...">
+        <div v-for="(i,k) in data" :key="i.id" class="card" style="width: 19rem; "  >
+          <img v-bind:src= "i.thumbnail" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title text-start">Lorem Ipsum is simply</h5>
-              <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
+              <h5 class="card-title text-start">{{ i.title }}</h5>
+              <p class="card-text">{{ i.description }}</p>
             </div>
-          </div>
-          <div class="card" style="width: 19rem; ">
-            <img src="../assets/card.jpg" class="card-img-top" alt="..." >
-            <div class="card-body">
-              <h5 class="card-title text-start">Lorem Ipsum is simply</h5>
-              <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
+            <div class="card-footer gap-5 text-center">
+              <span class="card-text"> ราคา {{ i.price }} $</span>
             </div>
-          </div>
-          <div class="card" style="width: 19rem; ">
-            <img src="../assets/card.jpg" class="card-img-top" alt="..." >
-            <div class="card-body">
-              <h5 class="card-title text-start">Lorem Ipsum is simply</h5>
-              <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
-            </div>
-          </div>
+        </div>
       </div>
     </div>
   </section>
